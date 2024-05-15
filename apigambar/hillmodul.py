@@ -99,11 +99,14 @@ def save_image(image, image_path):
     print(f"Image saved to {image_path}")
 
 if __name__ == "__main__":
-    image_path = 'tempimage.jpg'
+    image_path = '12.jpg'
 
     # Generate key matrix
     key_matrix = generate_key_matrix(image_path)
 
+
+    print(key_matrix.shape[0])
+    
     # Encrypt image
     encrypted_image = encrypt_image(image_path, key_matrix)
 

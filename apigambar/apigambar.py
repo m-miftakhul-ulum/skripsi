@@ -31,6 +31,14 @@ def generate_key_matrix(image_path, modulus=256):
         key_matrix = np.random.randint(0, modulus, size=(size, size))
         sympy_matrix = Matrix(key_matrix)
 
+    matrix_string = '\n'.join(' '.join(str(cell) for cell in row) for row in key_matrix)
+
+    # Menyimpan matriks ke file txt
+    filename = "key_matrix.txt"
+    with open(filename, "w") as file:
+        file.write(matrix_string)
+
+
     # Save key image
     key_folder = 'kunci'
     if not os.path.exists(key_folder):
@@ -58,6 +66,8 @@ def encrypt_image(image_path, key_matrix, modulus=256):
     end_time = time.time()
     return encrypted_image_path, end_time - start_time
 
+
+
 @app.route('/enkripsi_gambar', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
@@ -71,6 +81,7 @@ def upload_file():
         file_path = os.path.join('uploads', file.filename)
         file.save(file_path)
         key_matrix, key_image_path = generate_key_matrix(file_path)
+        
         encrypted_image_path, encryption_time = encrypt_image(file_path, key_matrix)
         return jsonify({
             'message': 'File processed',
@@ -78,6 +89,11 @@ def upload_file():
             'encrypted_image': encrypted_image_path,
             'encryption_time': encryption_time
         }), 200
+
+@app.route('/dekripsi_gambar', methods=['POST'])
+def deksripsigambar():
+    return 'wow'
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

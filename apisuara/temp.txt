@@ -1,0 +1,25 @@
+bagaimana cara mengganti bagian input_audio_file = data.get("input_audio_file") menjadi request file
+
+@app.route("/encrypt_audio", methods=["POST"])
+def encrypt():
+    data = request.json
+    user_key_plain = data.get("user_key_plain")
+    input_audio_file = data.get("input_audio_file")
+    output_file_name = data.get("output_file_name")
+
+    if len(user_key_plain) != 16:
+        return jsonify({"error": "Kunci harus 16 byte."}), 400
+
+    user_key_cipher = shift_cipher_13(user_key_plain).encode("utf-8")
+    output_text_file = f"{output_file_name}.txt"
+
+    start_time = time.time()
+    encrypt_audio_to_txt(input_audio_file, output_text_file, user_key_cipher)
+    end_time = time.time()
+
+    return jsonify(
+        {
+            "message": "Enkripsi selesai.",
+            "encryption_time": f"{end_time - start_time:.4f} detik",
+        }
+    )

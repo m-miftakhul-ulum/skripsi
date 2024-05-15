@@ -19,6 +19,7 @@ def shift_cipher_13(text):
         shifted_text += shifted_char
     return shifted_text
 
+# sedikit diubah
 
 def encrypt_audio_to_txt(input_file_path, output_text_file, key):
     # Membaca file audio
