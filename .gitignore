@@ -2,7 +2,7 @@ anja/
 cobabuild/
 dokumen/
 lata/
-apisuara/venv/
-apigambar/venv/
-apigambar/archive.zip
+development/apisuara/venv/
+development/apigambar/venv/
+development/apigambar/archive.zip
 *.zip
