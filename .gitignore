@@ -4,4 +4,8 @@ dokumen/
 lata/
 development/apisuara/venv/
 development/apigambar/venv/
+stagging/apigambar/servis_dekrip/venv
+stagging/apigambar/servis_enkrip/venv
+stagging/apisuara/servis_dekrip/venv
+stagging/apisuara/servis_enkrip/venv
 *.zip

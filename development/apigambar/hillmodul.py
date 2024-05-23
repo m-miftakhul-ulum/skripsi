@@ -23,7 +23,6 @@ def generate_key_matrix(image_path, modulus=256):
     
     image = Image.open(image_path)
     pixels = np.array(image)
-    
     key_matrix = None
     size = None
     

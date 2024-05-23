@@ -20,10 +20,7 @@ def shift_cipher_13(text):
         shifted_text += shifted_char
     return shifted_text
 
-
 # sedikit diubah
-
-
 def encrypt_audio(input_file_path, output_text_file, key):
     # Membaca file audio
     with wave.open(input_file_path, "rb") as wav_file:
@@ -78,11 +75,12 @@ def encrypt():
     if not user_key_plain or len(user_key_plain) != 16:
         return jsonify({"error": "Kunci harus 16 byte."}), 400
 
-    if not input_audio_file:
-        return jsonify({"error": "File audio tidak ditemukan."}), 400
-
-    if not output_file_name:
-        return jsonify({"error": "Nama file output tidak ditemukan."}), 400
+    if not input_audio_file or not output_file_name:
+        if not input_audio_file:
+            error_message = "File audio tidak ditemukan."
+        else:
+            error_message = "Nama file output tidak ditemukan."
+        return jsonify({"error": error_message}), 400
 
     # Buat folder temp jika belum ada
     temp_folder = "temp"
