@@ -1,13 +1,11 @@
-from flask import Flask, request, jsonify, send_file
+
+import string
+import random
+import time
 from PIL import Image
 import numpy as np
-import os
-import time
 from sympy import Matrix, gcd
-import random
-import string
-
-app = Flask(__name__)
+import os
 
 
 def generate_key_matrix(image_path, modulus=256):
@@ -79,50 +77,3 @@ def encrypt_image(image_path, key_matrix, modulus=256):
 def generate_random_filename(length=8):
     letters = string.ascii_lowercase
     return "".join(random.choice(letters) for i in range(length))
-
-
-@app.route("/enkripsi_gambar", methods=["POST"])
-def upload_file():
-    if "file" not in request.files:
-        return jsonify({"message": "No file part in the request"}), 400
-
-    file = request.files["file"]
-    if file.filename == "":
-        return jsonify({"message": "No file selected"}), 400
-
-    if file:
-        file_path = os.path.join("uploads", file.filename)
-        if not os.path.exists("uploads"):
-            os.makedirs("uploads")
-
-        random_filename = (
-            generate_random_filename() + os.path.splitext(file.filename)[1]
-        )
-        file_path = os.path.join("uploads", random_filename)
-        file.save(file_path)
-        key_matrix, key_image_path = generate_key_matrix(file_path)
-
-        encrypted_image_path, encryption_time = encrypt_image(file_path, key_matrix)
-
-        if os.path.exists(file_path):
-            os.remove(file_path)
-        return (
-            jsonify(
-                {
-                    "message": "success",
-                    "key_image_download": key_image_path,
-                    "encrypted_image_download": encrypted_image_path,
-                    # "encryption_time": encryption_time,
-                }
-            ),
-            200,
-        )
-
-
-@app.route("/")
-def index():
-    return "Hello, World!"
-
-
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port="5000")

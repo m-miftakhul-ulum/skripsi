@@ -8,4 +8,7 @@ stagging/apigambar/servis_dekrip/venv
 stagging/apigambar/servis_enkrip/venv
 stagging/apisuara/servis_dekrip/venv
 stagging/apisuara/servis_enkrip/venv
+stagging/monolith/venv
+stagging/testing/apigambar/venv
+stagging/testing/apigambar/100 - 200
 *.zip

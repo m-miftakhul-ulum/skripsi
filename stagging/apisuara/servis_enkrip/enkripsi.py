@@ -44,17 +44,18 @@ def generate_random_filename(length=8):
 def encrypt():
     user_key_plain = request.form.get("user_key_plain")
     input_audio_file = request.files.get("input_audio_file")
-    output_file_name = request.form.get("output_file_name")
+    # output_file_name = request.form.get("output_file_name")
 
     if not user_key_plain or len(user_key_plain) != 16:
         return jsonify({"error": "Kunci harus 16 byte."}), 400
 
-    if not input_audio_file or not output_file_name:
-        if not input_audio_file:
-            error_message = "File audio tidak ditemukan."
-        else:
-            error_message = "Nama file output tidak ditemukan."
+    # if not input_audio_file:
+    if not input_audio_file:
+        error_message = "File audio tidak ditemukan."
         return jsonify({"error": error_message}), 400
+    # else:
+        # error_message = "Nama file output tidak ditemukan."
+    # return jsonify({"error": error_message}), 400
 
     user_key_cipher = shift_cipher_13(user_key_plain).encode("utf-8")
     # output_text_file = f"{output_file_name}.txt"
@@ -75,18 +76,23 @@ def encrypt():
     if not os.path.exists(enkrip_dir):
         os.makedirs(enkrip_dir)
 
-    output_text_file = os.path.join(enkrip_dir, f"{output_file_name}.txt")
+    output_text_file = os.path.join(enkrip_dir, f"{random_name}.txt")
 
     start_time = time.time()
     encrypt_audio_to_txt(input_audio_path, output_text_file, user_key_cipher)
     end_time = time.time()
+    
+    try:
+        os.remove(input_audio_path)
+    except Exception as e:
+        print(f"Failed to delete temporary files: {str(e)}")
 
     return jsonify(
         {
-            "message": "Enkripsi selesai.",
-            "encryption_time": f"{end_time - start_time:.4f} detik",
+            "message": "success",
+            "encrypted_audio_download": input_audio_path
         }
-    )
+    ), 200
 
 
 if __name__ == "__main__":

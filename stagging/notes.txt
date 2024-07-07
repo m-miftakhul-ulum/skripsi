@@ -1,0 +1,15 @@
+python -m venv venv
+.\venv\Scripts\activate
+Deactivate
+
+
+pip freeze > requirements.txt
+
+docker build -t my-python-app .
+docker run -d -p 5000:5000 my-python-app
+
+1.push image ke repo
+2.coba di lokal
+3.coba di vm + HPA
+4.ulangain untuk ke 4 image
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
