@@ -1,0 +1,4 @@
+jalankan vmtesting.txt
+clone bagian automasi/testing
+jalankan apigambar-v1.sh dan apisuara-v1.sh
+pasang microservice kubernetes

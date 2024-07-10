@@ -31,7 +31,8 @@ def start_attack():
         thread = threading.Thread(target=send_request, args=(file_path,))
         threads.append(thread)
         thread.start()
-        time.sleep(0.1)  # Adjust the sleep time as needed
+        # time.sleep(0.1)  # Adjust the sleep time as needed
+        time.sleep(1)  # Adjust the sleep time as needed
 
     for thread in threads:
         thread.join()
