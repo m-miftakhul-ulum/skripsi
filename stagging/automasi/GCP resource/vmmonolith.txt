@@ -1,0 +1,23 @@
+# Step 1: Create firewall rules
+gcloud compute firewall-rules create allow-ingress \
+    --network default \
+    --allow tcp:22,tcp:80,tcp:443 \
+    --source-ranges 0.0.0.0/0
+
+gcloud compute firewall-rules create allow-egress \
+    --network default \
+    --allow all \
+    --destination-ranges 0.0.0.0/0
+
+# Step 3: Create VM instance with Ubuntu 22.04 LTS
+gcloud compute instances create vm-instance-mono \
+    --zone us-central1-a \
+    --machine-type e2-medium \
+    --subnet default \
+    --network-interface network=default,subnet=default \
+    --tags http-server,https-server \
+    --image-family ubuntu-2204-lts \
+    --image-project ubuntu-os-cloud \
+    --boot-disk-size 10GB \
+    --boot-disk-type pd-standard \
+    --boot-disk-device-name vm-instance-1-disk

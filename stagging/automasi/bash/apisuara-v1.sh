@@ -17,7 +17,7 @@ virtualenv env
 source env/bin/activate
 
 # Clone the repository
-git clone https://github.com/m-miftakhul-ulum/skripsi/tree/main/stagging/testing/apigambar
+
 
 # Navigate into the cloned repository directory
 cd apigambar
