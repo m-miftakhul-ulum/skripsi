@@ -18,7 +18,7 @@ def decrypt_audio_from_txt(input_file, output_file, aes_key):
     )
 
     audio = AudioSegment(
-        data=decrypted_audio, sample_width=2, frame_rate=44100 * 2, channels=1
+        data=decrypted_audio, sample_width=2, frame_rate=44100, channels=1
     )
 
     audio.export(output_file, format="wav")

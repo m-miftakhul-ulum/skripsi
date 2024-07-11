@@ -8,7 +8,7 @@ gcloud compute networks create testing --subnet-mode=auto
 # Step 2: Create firewall rules
 gcloud compute firewall-rules create allow-ingress \
     --network testing \
-    --allow tcp:22,tcp:80,tcp:443 \
+    --allow tcp:22,tcp:80,tcp:443,tcp:8089 \
     --source-ranges 0.0.0.0/0
 
 gcloud compute firewall-rules create allow-egress \

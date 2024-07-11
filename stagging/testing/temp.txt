@@ -1,0 +1,10 @@
+# files_1 = [
+#     os.path.join("dekgambar", f)
+#     for f in os.listdir("dekgambar")
+#     if os.path.isfile(os.path.join("dekgambar", f))
+# ]
+# files_2 = [
+#     os.path.join("keydekgambar", f)
+#     for f in os.listdir("keydekgambar")
+#     if os.path.isfile(os.path.join("keydekgambar", f))
+# ]

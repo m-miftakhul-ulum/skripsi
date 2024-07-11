@@ -3,6 +3,7 @@ import numpy as np
 import os
 from sympy import Matrix, gcd
 import random
+import string
 import time
 from img_dekripsi import decrypt_image
 from img_enkripsi import generate_key_matrix, encrypt_image, generate_random_filename
@@ -50,6 +51,11 @@ def upload_file():
             200,
         )
 
+def generate_random_filename(extension=''):
+    letters = string.ascii_letters
+    random_string = ''.join(random.choice(letters) for i in range(8))
+    return random_string + extension
+
 @app.route("/decrypt_image", methods=["POST"])
 def api_decrypt_image():
     if "encrypted_image" not in request.files or "key_image" not in request.files:
@@ -58,9 +64,13 @@ def api_decrypt_image():
     encrypted_image_file = request.files["encrypted_image"]
     key_image_file = request.files["key_image"]
 
+    # Generate random filenames for the uploaded images
+    encrypted_image_filename = generate_random_filename('.png')
+    key_image_filename = generate_random_filename('.png')
+
     # Save the uploaded images to temporary locations
-    encrypted_image_path = os.path.join("uploads", encrypted_image_file.filename)
-    key_image_path = os.path.join("uploads", key_image_file.filename)
+    encrypted_image_path = os.path.join("uploads", encrypted_image_filename)
+    key_image_path = os.path.join("uploads", key_image_filename)
     if not os.path.exists("uploads"):
         os.makedirs("uploads")
     encrypted_image_file.save(encrypted_image_path)
