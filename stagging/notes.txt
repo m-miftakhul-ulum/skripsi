@@ -2,6 +2,12 @@ python -m venv venv
 .\venv\Scripts\activate
 Deactivate
 
+pembagian port
+enkripsi gamabr 5000
+dekrip gambar 5001
+ekrip suara 5002
+dekrip suara 5003
+
 
 pip freeze > requirements.txt
 
@@ -13,3 +19,54 @@ docker run -d -p 5000:5000 my-python-app
 3.coba di vm + HPA
 4.ulangain untuk ke 4 image
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+
+
+
+[Unit]
+#  specifies metadata and dependencies
+
+Description=Gunicorn instance to serve myproject
+After=network.target
+
+# tells the init system to only start this after the networking target has been reached
+# We will give our regular user account ownership of the process since it owns all of the relevant files
+[Service]
+
+# Service specify the user and group under which our process will run.
+User=cloud_user
+
+# give group ownership to the www-data group so that Nginx can communicate easily with the Gunicorn processes.
+Group=www-data
+
+# We'll then map out the working directory and set the PATH environmental variable so that the init system knows where our the executables for the process are located (within our virtual environment).
+WorkingDirectory=/home/cloud_user/myFlaskApp/
+Environment="PATH=/home/cloud_user/myFlaskApp/env/bin"
+
+# We'll then specify the commanded to start the service
+ExecStart=/home/cloud_user/myFlaskApp/env/bin/gunicorn --workers 3 --bind unix:app.sock -m 007 wsgi:app
+
+# This will tell systemd what to link this service to if we enable it to start at boot. We want this service to start when the regular multi-user system is up and running:
+[Install]
+WantedBy=multi-user.target
+
+
+server {
+listen 80;
+server_name 18.141.145.28;
+
+location / {
+  include proxy_params;
+  proxy_pass http://unix:/home/cloud_user/myFlaskApp/app.sock;
+    }
+
+
+location /static  {
+    include  /etc/nginx/mime.types;
+    root /home/cloud_user/myFlaskApp/;
+  }
+}
+
+sudo chmod 775 -R /home/cloud_user/myFlaskApp
+
+sudo chmod 775 -R /home/cloud_user

@@ -1,23 +1,43 @@
+# Step 1: Create VPC 'testing' if not exists
+gcloud compute networks create testing --subnet-mode=auto
+
+
 # Step 1: Create firewall rules
 gcloud compute firewall-rules create allow-ingress \
-    --network default \
-    --allow tcp:22,tcp:80,tcp:443 \
+    --network testing \
+    --allow tcp:22,tcp:80,tcp:443,tcp:8089 \
     --source-ranges 0.0.0.0/0
 
 gcloud compute firewall-rules create allow-egress \
-    --network default \
+    --network testing \
     --allow all \
     --destination-ranges 0.0.0.0/0
 
 # Step 3: Create VM instance with Ubuntu 22.04 LTS
-gcloud compute instances create vm-instance-mono \
+gcloud compute instances create vm-instance-testing \
     --zone us-central1-a \
     --machine-type e2-medium \
-    --subnet default \
-    --network-interface network=default,subnet=default \
+    --subnet testing \
+    --network=testing \
     --tags http-server,https-server \
     --image-family ubuntu-2204-lts \
     --image-project ubuntu-os-cloud \
     --boot-disk-size 10GB \
     --boot-disk-type pd-standard \
     --boot-disk-device-name vm-instance-1-disk
+
+
+# Step 3: Create VM instance with Ubuntu 22.04 LTS
+gcloud compute instances create vm-instance-monolith \
+    --zone us-central1-a \
+    --machine-type e2-standard-2 \
+    --subnet default \
+    --network=default \
+    --tags http-server,https-server \
+    --image-family ubuntu-2204-lts \
+    --image-project ubuntu-os-cloud \
+    --boot-disk-size 10GB \
+    --boot-disk-type pd-standard \
+    --boot-disk-device-name vm-instance-1-disk
+
+# sudah fix

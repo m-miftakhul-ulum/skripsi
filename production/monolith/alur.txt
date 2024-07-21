@@ -1,0 +1,5 @@
+ubah user dan server_name
+
+jalankan sudo chmod +x script.sh
+
+./script.sh

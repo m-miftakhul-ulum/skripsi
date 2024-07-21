@@ -8,10 +8,10 @@ sudo apt install python3-pip python3-dev nginx -y
 sudo pip3 install virtualenv
 
 # Clone the repository
-git clone https://github.com/m-miftakhul-ulum/skripsi/tree/main/stagging/monolith
+git clone https://github.com/m-miftakhul-ulum/monolith-thesis.git
 
 # Navigate into the cloned repository directory
-cd monolith
+cd monolith-thesis
 
 # Create a virtual environment and activate it
 virtualenv env
@@ -33,9 +33,9 @@ After=network.target
 [Service]
 User=cloud_user
 Group=www-data
-WorkingDirectory=/home/cloud_user/monolith/
-Environment="PATH=/home/cloud_user/monolith/env/bin"
-ExecStart=/home/cloud_user/monolith/env/bin/gunicorn --workers 3 --bind unix:app.sock -m 007 wsgi:app
+WorkingDirectory=/home/cloud_user/monolith-thesis/
+Environment="PATH=/home/cloud_user/monolith-thesis/env/bin"
+ExecStart=/home/cloud_user/monolith-thesis/env/bin/gunicorn --workers 3 --bind unix:app.sock -m 007 wsgi:app
 
 [Install]
 WantedBy=multi-user.target
@@ -53,21 +53,22 @@ server {
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/cloud_user/monolith/app.sock;
+        proxy_pass http://unix:/home/cloud_user/monolith-thesis/app.sock;
     }
 
     location /static {
         include /etc/nginx/mime.types;
-        root /home/cloud_user/monolith;
+        root /home/cloud_user/monolith-thesis;
     }
 }
 EOL
 
 # Enable the Nginx configuration
-sudo ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled
+sudo ln -s /etc/nginx/sites-available/app 
+sudo ln -s /etc/nginx/sites-enabled
 
 # Adjust permissions
-sudo chmod 775 -R /home/cloud_user/monolith
+sudo chmod 775 -R /home/cloud_user/monolith-thesis
 sudo chmod 775 -R /home/cloud_user
 
 # Restart Nginx

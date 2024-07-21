@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  enkripsi_gambar_service:
+    image: ulum75/img-enkrip:v1
+    container_name: enkripsi_gambar_service
+    ports:
+      - "5000:5000"
+    networks:
+      my_custom_network:
+
+
+  enkripsi_suara_service:
+    image: ulum75/sound-enkrip:v1
+    container_name: enkripsi_suara_service
+    ports:
+      - "5002:5002"
+    networks:
+      my_custom_network:
+
+
+  dekripsi_gambar_service:
+    image: ulum75/img-dekrip:v1
+    container_name: dekripsi_gambar_service
+    ports:
+      - "5001:5001"
+    networks:
+      my_custom_network:
+
+
+  dekripsi_suara_service:
+    image: ulum75/sound-dekrip:v1
+    container_name: dekripsi_suara_service
+    ports:
+      - "5003:5003"
+    networks:
+      my_custom_network:
+
+networks:
+  my_custom_network:

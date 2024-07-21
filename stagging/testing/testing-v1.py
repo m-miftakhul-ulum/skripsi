@@ -44,4 +44,4 @@ class WebsiteUser(HttpUser):
     wait_time = between(1, 2)
 
     def on_start(self):
-        self.client.base_url = "http://127.0.0.1:81"
+        self.client.base_url = "http://34.72.191.33:5000/"
