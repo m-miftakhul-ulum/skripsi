@@ -35,7 +35,7 @@ class UserBehavior(TaskSet):
         for file in files_enkripsi_gambar:
             file_path = os.path.join(path_enkripsi_gambar, file)
             with open(file_path, 'rb') as f:
-                response = self.client.post("http://localhost:5000/enkripsi_gambar", files={'file': f})
+                response = self.client.post("/enkripsi_gambar", files={'file': f})
                 print(f"Sent {file_path}: {response.status_code}")
 
     # Enkripsi suara
@@ -44,7 +44,7 @@ class UserBehavior(TaskSet):
         for file in files_enkripsi_suara:
             file_path = os.path.join(path_enkripsi_suara, file)
             with open(file_path, 'rb') as f:
-                response = self.client.post("http://localhost:5002/encrypt_audio", files={'input_audio_file': f}, data={'user_key_plain': 1234567890123456})
+                response = self.client.post("/encrypt_audio", files={'input_audio_file': f}, data={'user_key_plain': 1234567890123456})
                 print(f"Sent {file_path}: {response.status_code}")    
     
     # Dekripsi gambar
@@ -59,7 +59,7 @@ class UserBehavior(TaskSet):
                     "encrypted_image" : gam, 
                     "key_image" : f
                 }
-                response = self.client.post("http://localhost:5001/decrypt_image", files=data)
+                response = self.client.post("/decrypt_image", files=data)
                 print(f"Sent {dekrigambar}: {response.status_code}")
    
     # Dekripsi suara
@@ -68,7 +68,7 @@ class UserBehavior(TaskSet):
         for file in deksuara:
             file_path = os.path.join(path_deksuara, file)
             with open(file_path, 'rb') as f:
-                response = self.client.post("http://localhost:5003/decrypt_audio", files={'input_text_file': f}, data={'user_key_plain': 1234567890123456})
+                response = self.client.post("/decrypt_audio", files={'input_text_file': f}, data={'user_key_plain': 1234567890123456})
                 print(f"Sent {file_path}: {response.status_code}")    
     
     @task
@@ -80,4 +80,4 @@ class WebsiteUser(HttpUser):
     wait_time = between(1, 2)
 
     def on_start(self):
-        self.client.base_url = "http://127.0.0.1:5000/"
+        self.client.base_url = "http://127.0.0.1:81"
