@@ -1,0 +1,68 @@
+# deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: img-enkrip-deploy
+spec:
+  selector:
+    matchLabels:
+      app: img-enkrip-deploy
+  template:
+    metadata:
+      labels:
+        app: img-enkrip-deploy
+    spec:
+      containers:
+      - name: img-enkrip-deploy
+        image: 'ulum75/img-enkrip:v1'
+        resources:
+          requests:
+            memory: "665Mi"
+            cpu: "165m"
+          limits:
+            memory: "665Mi"
+            cpu: "165m"
+        volumeMounts:
+        - mountPath: /app/enkripsi
+          name: test-volume
+      volumes:
+      - name: test-volume
+        hostPath:
+          path: /run/desktop/mnt/host/wsl/secrets
+          type: DirectoryOrCreate
+
+---
+# service
+apiVersion: v1
+kind: Service
+metadata:
+  name: img-enkrip-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: img-enkrip-deploy
+  ports:
+  - port: 80
+    targetPort: 5000
+    nodePort: 30000 # Sesuaikan dengan port yang Anda inginkan
+
+---
+# hpa
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: img-enkrip-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: img-enkrip-deploy
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80

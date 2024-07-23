@@ -24,13 +24,19 @@ sudo ufw allow 8089/tcp
 cd skripsi/stagging/testing
 
 # download file enkripsi suara
-gdown https://drive.google.com/uc?id=16MgxNs6XAA653TncshXTfnylf2RiYmTv
+gdown https://drive.google.com/uc?id=10qrteCXqbMjovvzCC2MPofTZgt55PxFS
 
 # download file dekripsi suara
-gdown https://drive.google.com/uc?id=1GoioGLGR2E2srsAhpdJzGd3CbwPrfwuQ
+gdown https://drive.google.com/uc?id=1UjmU0K5mMjflzCW9-9oRxMrwwXzpeKGM
 
 # download file enkripsi gambar
-gdown https://drive.google.com/uc?id=1Z6-VkpntFLcC99_cVc2Q3LIergG81gCJ
+gdown https://drive.google.com/uc?id=1RjjCGBQO5TxuJvCkrDAMDwEOaOVU8372
 
 # download file dekripsi gambar
-gdown https://drive.google.com/uc?id=1dzKSn7pyVAYyW-HIqyZ-eOPOeQvVLio-
+gdown https://drive.google.com/uc?id=1-oHhSOijctgKID3-Zd5pvWVNWxB4oPQi
+
+sudo unzip test_enkrip_gambar.zip
+sudo unzip test_dekrip_gambar.zip
+
+sudo unzip test_enkrip_suara.zip
+sudo unzip test_dekrip_suara.zip

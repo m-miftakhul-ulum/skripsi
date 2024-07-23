@@ -38,11 +38,11 @@ Description=Gunicorn instance to serve monolith
 After=network.target
 
 [Service]
-User=cloud_user_p_7a29c6d8
+User=cloud_user_p_85b877e1
 Group=www-data
-WorkingDirectory=/home/cloud_user_p_7a29c6d8/monolith-thesis/
-Environment="PATH=/home/cloud_user_p_7a29c6d8/monolith-thesis/env/bin"
-ExecStart=/home/cloud_user_p_7a29c6d8/monolith-thesis/env/bin/gunicorn --workers 3 --bind unix:/home/cloud_user_p_7a29c6d8/monolith-thesis/app.sock -m 007 wsgi:app
+WorkingDirectory=/home/cloud_user_p_85b877e1/monolith-thesis/
+Environment="PATH=/home/cloud_user_p_85b877e1/monolith-thesis/env/bin"
+ExecStart=/home/cloud_user_p_85b877e1/monolith-thesis/env/bin/gunicorn --workers 3 --bind unix:/home/cloud_user_p_85b877e1/monolith-thesis/app.sock -m 007 wsgi:app
 
 [Install]
 WantedBy=multi-user.target
@@ -62,16 +62,17 @@ echo "Creating Nginx configuration file..."
 sudo tee /etc/nginx/sites-available/app > /dev/null <<EOL
 server {
     listen 80;
-    server_name 34.134.165.101;
+    server_name 35.226.64.145;
+    client_max_body_size 50M;
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/cloud_user_p_7a29c6d8/monolith-thesis/app.sock;
+        proxy_pass http://unix:/home/cloud_user_p_85b877e1/monolith-thesis/app.sock;
     }
 
     location /static {
         include /etc/nginx/mime.types;
-        root /home/cloud_user_p_7a29c6d8/monolith-thesis;
+        root /home/cloud_user_p_85b877e1/monolith-thesis;
     }
 }
 EOL
@@ -82,8 +83,8 @@ sudo ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled
 
 # Adjust permissions
 echo "Adjusting permissions..."
-sudo chmod 775 -R /home/cloud_user_p_7a29c6d8/monolith-thesis
-sudo chmod 775 -R /home/cloud_user_p_7a29c6d8
+sudo chmod 775 -R /home/cloud_user_p_85b877e1/monolith-thesis
+sudo chmod 775 -R /home/cloud_user_p_85b877e1
 
 # Restart Nginx
 echo "Restarting Nginx..."

@@ -21,6 +21,11 @@ docker run -d -p 5000:5000 my-python-app
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 
+curl -X POST http://34.45.84.148/encrypt_audio \
+  -F "user_key_plain=1234567890123456" \
+  -F "input_audio_file=@test_enkrip_suara/response_1_1_2.wav"
+
+
 
 
 [Unit]
